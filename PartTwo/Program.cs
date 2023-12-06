@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace PartOne
+namespace PartTwo
 {
     public class Program
     {
@@ -9,7 +9,7 @@ namespace PartOne
         {
             try
             {
-                using (StreamReader sr = new StreamReader(@"C:\Users\Stuart\source\repos\AdventOfCode2023\DayOne\Input\Input.txt"))
+                using (StreamReader sr = new StreamReader(@"C:\Users\Stuart\source\repos\AdventOfCode2023\DayOne\PartTwo\Input\Input.txt"))
                 {
                     string line;
                     int totalValues = 0;
@@ -20,9 +20,9 @@ namespace PartOne
                     while ((line = sr.ReadLine()) != null)
                     {
                         charArr = line.ToCharArray();
-                        foreach(char ch in charArr)
+                        foreach (char ch in charArr)
                         {
-                            if(Char.IsDigit(ch))
+                            if (Char.IsDigit(ch))
                             {
                                 builder.Append(ch);
                             }
