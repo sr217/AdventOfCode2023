@@ -9,33 +9,27 @@ namespace PartTwo
         {
             try
             {
-                using (StreamReader sr = new StreamReader(@"C:\Users\Stuart\source\repos\AdventOfCode2023\DayOne\PartTwo\Input\Input.txt"))
+                using (StreamReader sr = new StreamReader(@"~/Input/InputSmall.txt"))
                 {
                     string line;
                     int totalValues = 0;
                     var builder = new StringBuilder();
-                    char[] charArr;
+                    var numbers = new[] { ("one", "1"), ("two" , "2"), ("three", "3"), ("four","4"), ("five","5"), ("six", "6"), ("seven", "7"), ("eight", "8"), ("nine", "9") };
+
                     // Read and display lines from the file until the end of
                     // the file is reached.
                     while ((line = sr.ReadLine()) != null)
                     {
-                        charArr = line.ToCharArray();
-                        foreach (char ch in charArr)
+                        for (int i = 0, i < numbers.Length; i++)
                         {
-                            if (Char.IsDigit(ch))
+                            if (line.Contains(numbers[i].Item1))
                             {
-                                builder.Append(ch);
+                                builder.Append(numbers[i].Item2);
                             }
                         }
-                        string number = builder.ToString();
-                        builder.Clear();
-                        char firstNumber = number[0];
-                        char secondNumber = number[number.Length - 1];
-                        string number2 = firstNumber.ToString() + secondNumber.ToString();
-                        int actualNumber = Int32.Parse(number2);
-                        //Console.WriteLine(actualNumber);
-                        number = string.Empty;
-                        totalValues += actualNumber;
+                        string firstAndLast = builder[0] + builder[builder.Length-1]
+                        int numericValue = Int32.Parse(firstAndLast);
+                        totalValues += numericValue;
                     }
                     Console.WriteLine(totalValues);
                 }
