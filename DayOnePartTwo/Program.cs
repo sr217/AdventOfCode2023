@@ -9,35 +9,41 @@ namespace PartTwo
         {
             try
             {
-                using (StreamReader sr = new StreamReader(@"C:\Users\stuar\Source\Repos\AdventOfCode2023\DayOnePartTwo\Input\InputSmall.txt"))
+                using (StreamReader sr = new StreamReader(@"C:\Users\Stuart\source\repos\AdventOfCode2023\DayOnePartTwo\Input\InputSmall.txt"))
                 {
                     string line;
                     int totalValues = 0;
-                    string stringBuilder = "";
-                    var numbers = new[] { ("one", "1"), ("two", "2"), ("three", "3"), ("four", "4"), ("five", "5"), ("six", "6"), ("seven", "7"), ("eight", "8"), ("nine", "9") };
-                    int numbersLength = numbers.Length;
+                    int indexFound = 0;
+                    string numbers = new[] { ("one", "1"), ("two", "2"), ("three", "3"), ("four", "4"), ("five", "5"), ("six", "6", ("seven", "7"), ("eight", "8"), ("nine", "9") };
+                    (double, int) t = (4.5, 3);
+                    List<int> numberResult = new List<int>();
                     // Read and display lines from the file until the end of
                     // the file is reached.
                     while ((line = sr.ReadLine()) != null)
                     {
-                        foreach(var tuple in numbers)
+                        foreach (var tuple in numbers)
                         {
                             if (line.Contains(tuple.Item1))
                             {
-                                stringBuilder += tuple.Item2;
+                                if (indexFound > line.IndexOf(tuple.Item1)) //if the entry of the last insert is less than the current iteration
+                                {
+                                    indexFound = line.IndexOf(tuple.Item1);
+                                    numberResult.Insert(0, tuple.Item2);
+                                    //add to the front of the list
+                                } else if (indexFound < line.IndexOf(tuple.Item1))
+                                {
+                                    indexFound = line.IndexOf(tuple.Item1);
+                                    numberResult.Add(tuple.Item2);
+                                    //if its less then add at the end of the list
+                                }
+                                else
+                                {
+                                    indexFound = line.IndexOf(tuple.Item1);
+                                    numberResult.Add(tuple.Item2);
+                                }
                             }
                         }
-
-                        string firstNumber = stringBuilder.Substring(0, 1);
-                        string lastNumber = stringBuilder.Substring(stringBuilder.Length - 1);
-                        string twoDigitString = firstNumber + lastNumber;
-                        int numericValue = Int32.Parse(twoDigitString);
-                        Console.WriteLine(numericValue);
-                        totalValues += numericValue;
-                       
-                        stringBuilder = "";
                     }
-                    Console.WriteLine(totalValues);
                 }
             }
             catch (Exception e)
