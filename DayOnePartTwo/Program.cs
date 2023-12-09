@@ -13,37 +13,47 @@ namespace PartTwo
                 {
                     string line;
                     int totalValues = 0;
-                    int indexFound = 0;
-                    string numbers = new[] { ("one", "1"), ("two", "2"), ("three", "3"), ("four", "4"), ("five", "5"), ("six", "6", ("seven", "7"), ("eight", "8"), ("nine", "9") };
-                    (double, int) t = (4.5, 3);
-                    List<int> numberResult = new List<int>();
+                    var numbers = new[] { ("one", "1"), ("two", "2"), ("three", "3"), ("four", "4"), ("five", "5"), ("six", "6"), ("seven", "7"), ("eight", "8"), ("nine", "9") };
+                    //above flaw for iterating through the above array and then comparing is that if two of the same numbers come up in one line then it will miss the second iteration.
+                    List<string> numberResult = new List<string>();
+                    StringBuilder builder = new StringBuilder();
+                    char[] charArr;
                     // Read and display lines from the file until the end of
                     // the file is reached.
                     while ((line = sr.ReadLine()) != null)
                     {
-                        foreach (var tuple in numbers)
+                        charArr = line.ToCharArray();
+                        foreach (char element in charArr)
                         {
-                            if (line.Contains(tuple.Item1))
+                            if (Char.IsDigit(element))
                             {
-                                if (indexFound > line.IndexOf(tuple.Item1)) //if the entry of the last insert is less than the current iteration
+                                numberResult.Add(element.ToString());
+                            }
+                            else if (Char.IsLetter(element))
+                            {
+                                builder.Append(element);
+                                if (builder.Length >= 3)
                                 {
-                                    indexFound = line.IndexOf(tuple.Item1);
-                                    numberResult.Insert(0, tuple.Item2);
-                                    //add to the front of the list
-                                } else if (indexFound < line.IndexOf(tuple.Item1))
-                                {
-                                    indexFound = line.IndexOf(tuple.Item1);
-                                    numberResult.Add(tuple.Item2);
-                                    //if its less then add at the end of the list
-                                }
-                                else
-                                {
-                                    indexFound = line.IndexOf(tuple.Item1);
-                                    numberResult.Add(tuple.Item2);
+                                    string tempString = builder.ToString();
+                                    foreach (var tuple in numbers)
+                                    {
+                                        if (tempString.Contains(tuple.Item1))
+                                        {
+                                            numberResult.Add(tuple.Item2);
+                                            tempString = "";
+
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
+                        foreach (string num in numberResult)
+                        {
+                            Console.Write(num);
+                        }
+                        Console.WriteLine();
+                        numberResult.Clear();
+                    }  
                 }
             }
             catch (Exception e)
