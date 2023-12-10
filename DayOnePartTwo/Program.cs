@@ -41,19 +41,18 @@ namespace PartTwo
                                         {
                                             numberResult.Add(tuple.Item2);
                                             tempString = "";
-
+                                            builder.Clear();
+                                            break;
                                         }
                                     }
                                 }
                             }
                         }
-                        foreach (string num in numberResult)
-                        {
-                            Console.Write(num);
-                        }
-                        Console.WriteLine();
+                        totalValues += Int32.Parse(numberResult[0] + numberResult[numberResult.Count - 1]);
+                        //Console.WriteLine(numberResult[0] + numberResult[numberResult.Count - 1]);
                         numberResult.Clear();
-                    }  
+                    }
+                    Console.WriteLine(totalValues);
                 }
             }
             catch (Exception e)
