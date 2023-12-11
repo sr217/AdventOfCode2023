@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.Design;
 using System.Text;
 
 namespace PartTwo
@@ -7,43 +8,67 @@ namespace PartTwo
     {
         static void Main(string[] args)
         {
+            int totalValues = 0;
+            Dictionary<string, int> numbers = new Dictionary<string, int>()
+            {
+                {"one", 1},
+                {"two", 2},
+                {"three", 3},
+                {"four", 4},
+                {"five", 5},
+                {"six", 6},
+                {"seven", 7},
+                {"eight", 8},
+                {"nine", 9}
+            };
+
+            for (int i = 0; i <= 9; i++)
+            {
+                numbers.Add(i.ToString(), i);
+            }
             try
             {
-                using (StreamReader sr = new StreamReader(@"C:\Users\Stuart\source\repos\AdventOfCode2023\DayOnePartTwo\Input\InputSmall.txt"))
+                using (StreamReader sr = new StreamReader(@"C:\Users\stuar\Source\Repos\AdventOfCode2023\DayOnePartTwo\Input\InputSmall.txt"))
                 {
-                    string line;
-                    int totalValues = 0;
-                    int indexFound = 0;
-                    string numbers = new[] { ("one", "1"), ("two", "2"), ("three", "3"), ("four", "4"), ("five", "5"), ("six", "6", ("seven", "7"), ("eight", "8"), ("nine", "9") };
-                    (double, int) t = (4.5, 3);
-                    List<int> numberResult = new List<int>();
-                    // Read and display lines from the file until the end of
-                    // the file is reached.
+                    string line = "";
                     while ((line = sr.ReadLine()) != null)
                     {
-                        foreach (var tuple in numbers)
+                        
+                        int index = 0;
+                        int firstValue = 0;
+                        int lastValue = 0;
+                        int firstIndex = line.Length;
+                        int lastIndex = -1;
+
+                        foreach (var key in numbers)
                         {
-                            if (line.Contains(tuple.Item1))
+                            if (line.Contains(key.Key))
                             {
-                                if (indexFound > line.IndexOf(tuple.Item1)) //if the entry of the last insert is less than the current iteration
+                                index = line.IndexOf(key.Key);
+
+                                if (index < firstIndex)
                                 {
-                                    indexFound = line.IndexOf(tuple.Item1);
-                                    numberResult.Insert(0, tuple.Item2);
-                                    //add to the front of the list
-                                } else if (indexFound < line.IndexOf(tuple.Item1))
-                                {
-                                    indexFound = line.IndexOf(tuple.Item1);
-                                    numberResult.Add(tuple.Item2);
-                                    //if its less then add at the end of the list
+                                    firstIndex = index;
+                                    firstValue = key.Value;
+
                                 }
-                                else
+
+                                index = line.LastIndexOf(key.Key); //This operation takes care of retrieving a potential duplicate later on in the string
+
+                                if (index > lastIndex)
                                 {
-                                    indexFound = line.IndexOf(tuple.Item1);
-                                    numberResult.Add(tuple.Item2);
+                                    lastIndex = index;
+                                    lastValue = key.Value;
                                 }
                             }
                         }
+                        
+                        string number = firstValue.ToString() + lastValue.ToString();
+                        Console.WriteLine(number);
+                        totalValues += Int32.Parse(number);
+                        
                     }
+                    Console.WriteLine(totalValues);
                 }
             }
             catch (Exception e)
